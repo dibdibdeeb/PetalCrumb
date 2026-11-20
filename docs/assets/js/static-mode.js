@@ -5,7 +5,7 @@ window.initStaticShowcase = function () {
     const notice = document.createElement("div");
     notice.className = "github-pages-note";
     notice.setAttribute("role", "status");
-    notice.textContent = "Sample menu data is in the code; your orders and edits stay in this browser visit only.";
+    notice.textContent = "Your orders and edits stay in this browser visit only.";
     const announcement = document.querySelector(".announcement-bar, .owner-topline");
     const main = document.querySelector("main");
     if (announcement) announcement.insertAdjacentElement("afterend", notice);
