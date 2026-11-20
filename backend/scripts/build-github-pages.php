@@ -28,11 +28,11 @@ $scripts = '<script src="assets/js/demo-data.js"></script>'
     .'<script src="assets/js/static-demo.js"></script>'
     .'<script src="assets/js/app.js"></script>';
 $replacements = [
-    'Seeded demo data and live shop activity' => 'Sample data · changes stay in this browser',
-    'Includes fictional seed data and live orders' => 'Sample records · order updates stay in this browser',
-    'Includes fictional seed records' => 'Sample records',
-    'Fictional seed records and live customers' => 'Sample customer records',
-    'Pickup activity from the shop database.' => 'Sample pickup activity; new orders stay in this browser.',
+    'Seeded demo data and live shop activity' => 'Data · changes stay in this browser',
+    'Includes fictional seed data and live orders' => 'Records · order updates stay in this browser',
+    'Includes fictional seed records' => 'Records',
+    'Fictional seed records and live customers' => 'Customer records',
+    'Pickup activity from the shop database.' => 'Pickup activity; new orders stay in this browser.',
     'new orders appear here from the database.' => 'new orders appear here in this browser.',
     'The customer list is available only to the signed-in shop owner.' => 'This list uses sample records. Sign-in is client-side and does not make the information private.',
     'This customer list is available only to the signed-in shop owner.' => 'This list uses sample records. Sign-in is client-side and does not make the information private.',
@@ -49,7 +49,7 @@ $replacements = [
     'Owner workspace · database-backed analytics' => 'Owner workspace · sample analytics',
     'Owner workspace · database-backed menu products' => 'Owner workspace · menu changes stay in this browser',
     'This demo form shows a confirmation but doesn’t send or store your message.' => 'Your note is stored only in this browser and will not reach the shop.',
-    'Seeded sample orders are fictional;' => 'Sample orders are shown here;',
+    'Seeded sample orders are fictional;' => 'Orders are shown here;',
 ];
 
 foreach ($pages as $destinationName => $source) {
