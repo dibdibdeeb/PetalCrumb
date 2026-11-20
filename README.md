@@ -52,6 +52,10 @@ Customer pages are in `backend/public` (`index.html`, `menu.html`, `preorder.htm
 
 This application requires PHP/Laravel and MySQL; GitHub Pages cannot host the database-backed version. Configure the production database and HTTPS session settings, set `APP_DEBUG=false`, and create a unique owner account before deployment. Never use the seeded demo credentials for a live shop.
 
+### GitHub Pages showcase
+
+For a public, view-only showcase, start the local MySQL database and run `php backend/scripts/build-github-pages.php` from the project root. This exports active menu products and builds a static site in `docs` containing the home, menu, and story pages. The exported site does not include Laravel, customer accounts, ordering, message submission, or the owner workspace. Rebuild it after changing menu products, then commit and push the updated `docs` folder to GitHub. In the repository's **Settings → Pages**, choose the publishing source branch and `/docs` folder. GitHub will provide a public `https://<username>.github.io/<repository>/` address.
+
 ### Separate shop and owner domains
 
 The customer and owner pages can use different hostnames, such as `petalandcrumb.com` and `owner.petalandcrumb.com`, while still using the same Laravel application and MySQL database. Point both DNS records at the hosting account and configure both hostnames to serve the same Laravel `public` directory. The owner sign-in and its API requests then stay on the owner hostname; the shop uses the shop hostname. Keep the session cookie host-only so the two sites have separate sign-in sessions. If the owner site is hosted separately, route its `/api` requests through a secure reverse proxy to Laravel rather than exposing the database.

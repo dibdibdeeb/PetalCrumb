@@ -543,6 +543,8 @@ h1 em, h2 em, .brand-name > span { color: var(--sweet-rose); font-style: italic;
 .owner-product-filterbar .form-select { width: 155px; }
 .owner-products-heading { align-items: center; }
 .owner-product-form .form-label { font-size: 10px; font-weight: 700; }
+.github-pages-note { padding: 9px 14px; background: var(--sweet-raised); color: var(--sweet-muted); font-size: 10px; text-align: center; }
+.add-to-bag.view-only-button:disabled { opacity: .58; cursor: not-allowed; }
 .owner-login-page { display: grid; min-height: 66vh; place-items: center; padding: 48px 0; }
 .owner-login-card { width: min(100%, 470px); padding: clamp(22px, 5vw, 38px); border: 1px solid var(--sweet-line); background: var(--sweet-paper); box-shadow: var(--sweet-shadow); }
 .owner-login-card h1 { margin: 10px 0 6px; font-size: 38px; }

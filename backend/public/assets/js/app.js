@@ -40,6 +40,14 @@ const normalizeProduct = product => ({
   allergens: product.allergens,
   active: Boolean(product.active)
 });
+const sortCatalogProducts = products => products.sort((first, second) => {
+  const firstIndex = PRODUCT_ORDER.indexOf(first.id);
+  const secondIndex = PRODUCT_ORDER.indexOf(second.id);
+  if (firstIndex === -1 && secondIndex === -1) return first.name.localeCompare(second.name);
+  if (firstIndex === -1) return 1;
+  if (secondIndex === -1) return -1;
+  return firstIndex - secondIndex;
+});
 const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, character => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
 }[character]));
@@ -101,6 +109,10 @@ function updateCartCount() {
 }
 
 function renderProductCard(product) {
+  const addButton = document.documentElement.dataset.staticMode === "true"
+    ? '<button class="add-to-bag view-only-button" type="button" disabled>View only</button>'
+    : `<button class="add-to-bag" type="button" data-add-to-cart="${escapeHtml(product.id)}" aria-label="Add ${escapeHtml(product.name)} to your bag"><i class="bi bi-plus-lg"></i> Add to bag</button>`;
+
   return `<div class="col-6 col-lg-4">
     <article class="product-card">
       <div class="product-image-wrap">
@@ -111,7 +123,7 @@ function renderProductCard(product) {
         <div class="product-meta"><span>${escapeHtml(product.categoryLabel)}</span></div>
         <h3 class="product-title">${escapeHtml(product.name)}</h3>
         <p class="product-description">${escapeHtml(product.description)}</p>
-        <div class="product-footer"><span class="product-price">${money(product.price)}</span><button class="add-to-bag" type="button" data-add-to-cart="${escapeHtml(product.id)}" aria-label="Add ${escapeHtml(product.name)} to your bag"><i class="bi bi-plus-lg"></i> Add to bag</button></div>
+        <div class="product-footer"><span class="product-price">${money(product.price)}</span>${addButton}</div>
         <button class="ingredients-link" type="button" data-product-details="${escapeHtml(product.id)}"><i class="bi bi-info-circle"></i> Ingredients & allergens</button>
       </div>
     </article>
@@ -1194,19 +1206,29 @@ function initSessionApp() {
 
 async function startApp() {
   initTheme();
+
+  if (document.documentElement.dataset.staticMode === "true") {
+    try {
+      const response = await fetch("assets/data/products.json");
+      if (!response.ok) throw new Error(`Menu data request failed (${response.status}).`);
+      const products = await response.json();
+      if (!Array.isArray(products)) throw new Error("Menu data has an invalid format.");
+      PRODUCTS = sortCatalogProducts(products.map(normalizeProduct));
+    } catch (error) {
+      showToast(`The public menu could not be loaded: ${error.message}`);
+    }
+
+    initCatalog();
+    if (window.initStaticShowcase) window.initStaticShowcase();
+    return;
+  }
+
   initPickup();
   initContactForm();
 
   try {
     const products = await apiRequest("/api/products");
-    PRODUCTS = products.map(normalizeProduct).sort((first, second) => {
-      const firstIndex = PRODUCT_ORDER.indexOf(first.id);
-      const secondIndex = PRODUCT_ORDER.indexOf(second.id);
-      if (firstIndex === -1 && secondIndex === -1) return first.name.localeCompare(second.name);
-      if (firstIndex === -1) return 1;
-      if (secondIndex === -1) return -1;
-      return firstIndex - secondIndex;
-    });
+    PRODUCTS = sortCatalogProducts(products.map(normalizeProduct));
     updateCartCount();
   } catch (error) {
     showToast(`The menu could not be loaded: ${error.message}`);
