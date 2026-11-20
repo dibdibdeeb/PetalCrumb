@@ -25,7 +25,7 @@ These are public, client-side demo credentials, not secure accounts. The sign-in
 
 ## Data behavior
 
-Starter menu, customer, order, and demo-login data are stored in `backend/public/assets/js/demo-data.js`. Pickup orders, contact messages, and owner menu edits are saved in the current browser's `localStorage` so the prototype can demonstrate interactions. Those changes do not update the source code, sync to other devices, or reach a real shop. Clearing the browser's site data resets the demo to its starter records.
+Starter menu, customer, order, and demo-login data are stored in `backend/public/assets/js/demo-data.js`. Pickup orders, contact messages, owner menu edits, and sign-in state stay in the current tab's `sessionStorage` and are cleared when that tab closes. The shopping bag and theme preference remain in `localStorage`. Changes do not update the source code, sync to other devices, or reach a real shop.
 
 Do not use this static prototype to collect real customer information, passwords, or orders. Real shared accounts and persistent cross-device data require a server and database.
 

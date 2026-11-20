@@ -19,7 +19,7 @@
   if (!data) throw new Error("The assessment website data could not be loaded.");
 
   function readList(key, seed) {
-    const stored = localStorage.getItem(key);
+    const stored = sessionStorage.getItem(key);
     if (stored === null) return JSON.parse(JSON.stringify(seed));
     const value = JSON.parse(stored);
     if (!Array.isArray(value)) throw new Error(`Saved demo data for ${key} is invalid.`);
@@ -27,7 +27,7 @@
   }
 
   function writeList(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem(key, JSON.stringify(value));
   }
 
   function products() {
@@ -43,12 +43,12 @@
   }
 
   function ownerSession() {
-    const value = localStorage.getItem(keys.owner);
+    const value = sessionStorage.getItem(keys.owner);
     return value ? JSON.parse(value) : null;
   }
 
   function customerSession() {
-    const value = localStorage.getItem(keys.customer);
+    const value = sessionStorage.getItem(keys.customer);
     return value ? JSON.parse(value) : null;
   }
 
@@ -219,7 +219,7 @@
     if (path === "/api/account" && method === "POST") {
       if (body.mode === "register") {
         const user = { name: String(body.name || "").trim(), email: String(body.email || "").trim().toLowerCase() };
-        localStorage.setItem(keys.customer, JSON.stringify(user));
+        sessionStorage.setItem(keys.customer, JSON.stringify(user));
         return { user };
       }
       const email = String(body.email || "").trim().toLowerCase();
@@ -227,7 +227,7 @@
         throw new Error("Those customer details do not match. Use the sample credentials shown on this page.");
       }
       const user = { name: data.customerAccount.name, email };
-      localStorage.setItem(keys.customer, JSON.stringify(user));
+      sessionStorage.setItem(keys.customer, JSON.stringify(user));
       return { user };
     }
     if (path === "/api/account/orders" && method === "GET") {
@@ -241,7 +241,7 @@
     }
     if (path === "/api/orders" && method === "POST") return saveOrder(body);
     if (path === "/api/logout" && method === "POST") {
-      localStorage.removeItem(keys.customer);
+      sessionStorage.removeItem(keys.customer);
       return { message: "Signed out." };
     }
     if (path === "/api/contact" && method === "POST") {
@@ -262,7 +262,7 @@
       if (email !== data.owner.email || body.password !== data.owner.password) {
         throw new Error("Those owner details do not match. Please check the credentials below.");
       }
-      localStorage.setItem(keys.owner, JSON.stringify({
+      sessionStorage.setItem(keys.owner, JSON.stringify({
         name: data.owner.name,
         email,
         role: "owner"
@@ -270,7 +270,7 @@
       return { message: "Owner sign-in complete." };
     }
     if (path === "/api/owner/logout" && method === "POST") {
-      localStorage.removeItem(keys.owner);
+      sessionStorage.removeItem(keys.owner);
       return { message: "Signed out." };
     }
     if (path === "/api/owner/data" && method === "GET") return ownerData();

@@ -5,7 +5,7 @@ window.initStaticShowcase = function () {
     const notice = document.createElement("div");
     notice.className = "github-pages-note";
     notice.setAttribute("role", "status");
-    notice.textContent = "Assessment website · sample data is in the code; orders and edits stay in this browser only.";
+    notice.textContent = "Sample menu data is in the code; your orders and edits stay in this browser visit only.";
     const announcement = document.querySelector(".announcement-bar, .owner-topline");
     const main = document.querySelector("main");
     if (announcement) announcement.insertAdjacentElement("afterend", notice);
@@ -13,7 +13,7 @@ window.initStaticShowcase = function () {
   }
 
   document.querySelectorAll(".owner-topline .container span:last-child").forEach(label => {
-    label.textContent = "Sample data · changes stay in this browser";
+    label.textContent = "Sample data · changes last for this browser visit only";
   });
 
   const accountNote = document.querySelector("#authForm")?.parentElement?.querySelector(".auth-footnote");

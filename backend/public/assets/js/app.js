@@ -6,7 +6,7 @@ const STORAGE_KEYS = {
 };
 
 let currentUser = document.documentElement.dataset.staticMode === "true"
-  ? JSON.parse(localStorage.getItem(STORAGE_KEYS.userSession) || "null")
+  ? JSON.parse(sessionStorage.getItem(STORAGE_KEYS.userSession) || "null")
   : null;
 let csrfToken = null;
 
@@ -606,7 +606,7 @@ function initOwnerLoginLegacy() {
   const form = document.getElementById("ownerLoginForm");
   if (!form) return;
 
-  if (localStorage.getItem(STORAGE_KEYS.ownerSession)) {
+  if (sessionStorage.getItem(STORAGE_KEYS.ownerSession)) {
     window.location.replace("owner-dashboard.html");
     return;
   }
@@ -629,7 +629,7 @@ function initOwnerLoginLegacy() {
       return;
     }
 
-    localStorage.setItem(STORAGE_KEYS.ownerSession, JSON.stringify({
+    sessionStorage.setItem(STORAGE_KEYS.ownerSession, JSON.stringify({
       name: "Petal & Crumb Owner",
       email,
       role: "owner"
@@ -642,7 +642,7 @@ function initOwnerPortalLegacy() {
   const portal = document.getElementById("ownerPortal");
   if (!portal) return;
 
-  const owner = JSON.parse(localStorage.getItem(STORAGE_KEYS.ownerSession) || "null");
+  const owner = JSON.parse(sessionStorage.getItem(STORAGE_KEYS.ownerSession) || "null");
   if (!owner || owner.role !== "owner") {
     window.location.replace("owner-login.html");
     return;
@@ -654,7 +654,7 @@ function initOwnerPortalLegacy() {
   });
   document.querySelectorAll("[data-owner-sign-out]").forEach(button => {
     button.addEventListener("click", () => {
-      localStorage.removeItem(STORAGE_KEYS.ownerSession);
+      sessionStorage.removeItem(STORAGE_KEYS.ownerSession);
       window.location.href = "owner-login.html";
     });
   });
