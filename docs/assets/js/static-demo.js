@@ -16,7 +16,7 @@
     seasonal: "Seasonal"
   };
 
-  if (!data) throw new Error("The assessment demo data could not be loaded.");
+  if (!data) throw new Error("The assessment website data could not be loaded.");
 
   function readList(key, seed) {
     const stored = localStorage.getItem(key);
@@ -53,7 +53,7 @@
   }
 
   function requireOwner() {
-    if (!ownerSession()) throw new Error("Owner access is required. Please sign in to the demo.");
+    if (!ownerSession()) throw new Error("Owner access is required. Please sign in.");
   }
 
   function productFor(id, collection = products()) {
@@ -224,7 +224,7 @@
       }
       const email = String(body.email || "").trim().toLowerCase();
       if (email !== data.customerAccount.email || body.password !== data.customerAccount.password) {
-        throw new Error("Those demo customer details do not match. Use the credentials shown on this page.");
+        throw new Error("Those customer details do not match. Use the sample credentials shown on this page.");
       }
       const user = { name: data.customerAccount.name, email };
       localStorage.setItem(keys.customer, JSON.stringify(user));
@@ -232,7 +232,7 @@
     }
     if (path === "/api/account/orders" && method === "GET") {
       const user = customerSession();
-      if (!user) throw new Error("Sign in to view your demo orders.");
+      if (!user) throw new Error("Sign in to view your orders.");
       const catalog = products();
       return orders()
         .filter(order => order.email === user.email
@@ -252,7 +252,7 @@
         message: String(body.message || ""),
         createdAt: new Date().toISOString()
       }]);
-      return { message: "Demo message saved in this browser." };
+      return { message: "Message saved in this browser." };
     }
     if (path === "/api/owner/status" && method === "GET") {
       return { authenticated: Boolean(ownerSession()) };
@@ -260,14 +260,14 @@
     if (path === "/api/owner/login" && method === "POST") {
       const email = String(body.email || "").trim().toLowerCase();
       if (email !== data.owner.email || body.password !== data.owner.password) {
-        throw new Error("Those owner demo details do not match. Please check the credentials below.");
+        throw new Error("Those owner details do not match. Please check the credentials below.");
       }
       localStorage.setItem(keys.owner, JSON.stringify({
         name: data.owner.name,
         email,
         role: "owner"
       }));
-      return { message: "Signed in to the assessment demo." };
+      return { message: "Owner sign-in complete." };
     }
     if (path === "/api/owner/logout" && method === "POST") {
       localStorage.removeItem(keys.owner);
@@ -293,11 +293,11 @@
       const id = decodeURIComponent(productMatch[1]);
       const catalog = products();
       const index = catalog.findIndex(product => product.id === id);
-      if (index < 0) throw new Error("That demo menu product could not be found.");
+      if (index < 0) throw new Error("That menu product could not be found.");
       if (method === "DELETE") {
         catalog[index] = { ...catalog[index], active: false };
         writeList(keys.products, catalog);
-        return { message: "Demo product removed from the menu." };
+        return { message: "Product removed from the menu." };
       }
       if (method === "PUT") {
         catalog[index] = normalizeSavedProduct(body, id);
@@ -306,6 +306,6 @@
       }
     }
 
-    throw new Error(`The static demo does not support ${method} ${path}.`);
+    throw new Error(`This action is unavailable on the website (${method} ${path}).`);
   };
 })();

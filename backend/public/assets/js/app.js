@@ -623,7 +623,7 @@ function initOwnerLoginLegacy() {
     const password = document.getElementById("ownerPassword").value;
     const message = document.getElementById("ownerLoginMessage");
     if (email !== "owner@petalandcrumb.example" || password !== "littlecrumbs26") {
-      message.textContent = "Those owner details don’t match. Please try the demo credentials below.";
+      message.textContent = "Those owner details don’t match. Please try the sample credentials below.";
       message.classList.remove("d-none");
       document.getElementById("ownerPassword").focus();
       return;

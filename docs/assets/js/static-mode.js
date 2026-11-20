@@ -5,7 +5,7 @@ window.initStaticShowcase = function () {
     const notice = document.createElement("div");
     notice.className = "github-pages-note";
     notice.setAttribute("role", "status");
-    notice.textContent = "Assessment demo · sample data is in the code; orders and edits stay in this browser only.";
+    notice.textContent = "Assessment website · sample data is in the code; orders and edits stay in this browser only.";
     const announcement = document.querySelector(".announcement-bar, .owner-topline");
     const main = document.querySelector("main");
     if (announcement) announcement.insertAdjacentElement("afterend", notice);
@@ -13,23 +13,23 @@ window.initStaticShowcase = function () {
   }
 
   document.querySelectorAll(".owner-topline .container span:last-child").forEach(label => {
-    label.textContent = "Static demo · fictional data · browser-local changes";
+    label.textContent = "Sample data · changes stay in this browser";
   });
 
   const accountNote = document.querySelector("#authForm")?.parentElement?.querySelector(".auth-footnote");
   if (accountNote) {
-    accountNote.innerHTML = '<i class="bi bi-info-circle"></i> This public demo has no secure accounts. Use only the sample login shown here.';
+    accountNote.innerHTML = '<i class="bi bi-info-circle"></i> This site does not provide secure accounts. Use only the sample credentials shown here.';
   }
 
   const ownerNote = document.querySelector("#ownerLoginForm")?.parentElement?.querySelector(".auth-footnote");
   if (ownerNote) {
-    ownerNote.innerHTML = '<i class="bi bi-info-circle"></i> This client-side demo login is not secure and must not protect real customer data.';
+    ownerNote.innerHTML = '<i class="bi bi-info-circle"></i> This client-side owner login is not secure and does not protect customer data.';
   }
 
   const contactNote = document.querySelector("#contactUsForm .auth-footnote");
-  if (contactNote) contactNote.textContent = "This demo saves your note in this browser only; the shop will not receive it.";
+  if (contactNote) contactNote.textContent = "Your note is stored only in this browser and will not reach the shop.";
   const contactSuccess = document.getElementById("contactSuccess");
-  if (contactSuccess) contactSuccess.textContent = "Your demo note is saved in this browser only.";
+  if (contactSuccess) contactSuccess.textContent = "Your note has been saved only in this browser.";
 };
 
 window.initStaticShowcase();
