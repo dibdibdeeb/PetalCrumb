@@ -66,8 +66,8 @@ Then open `http://127.0.0.1:8080/`. The same demo login credentials above work o
 
 ## GitHub repository and Pages deployment
 
-- Repository: <https://github.com/dibdibdeeb/individual-adibah>
-- GitHub Pages URL: <https://dibdibdeeb.github.io/individual-adibah/>
+- Repository: <https://github.com/dibdibdeeb/PetalCrumb>
+- GitHub Pages URL: <https://dibdibdeeb.github.io/PetalCrumb/>
 
 To publish or update the site:
 
