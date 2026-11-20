@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Owner-only sample customer list for the Petal & Crumb website prototype.">
+  <meta name="theme-color" content="#fffaf4">
+  <title>Customer list — Petal & Crumb</title>
+  <script>document.documentElement.dataset.bsTheme = localStorage.getItem('pc-theme') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="owner-customers" data-owner-page="customers">
+  <div class="owner-topline"><div class="container"><span>Petal & Crumb · Owner workspace</span><span>Fictional customer records · static demo</span></div></div>
+  <nav class="navbar navbar-expand-lg sweet-navbar owner-navbar sticky-top"><div class="container"><a class="brand-lockup" href="owner-dashboard.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>OWNER WORKSPACE</small></span></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ownerNavigation" aria-controls="ownerNavigation" aria-expanded="false" aria-label="Toggle owner navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="ownerNavigation"><ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3"><li class="nav-item"><a class="nav-link" data-nav="owner-overview" href="owner-dashboard.html">Overview</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-products" href="owner-products.html">Menu</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-customers" href="owner-customers.html">Customers</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-analytics" href="owner-analytics.html">Analytics</a></li></ul><div class="owner-nav-actions"><button type="button" data-theme-toggle aria-label="Switch to dark mode"><i class="bi bi-moon-stars"></i></button><span class="owner-name" data-owner-name>Owner</span><button type="button" data-owner-sign-out>Sign out</button><a class="owner-shop-link" href="index.html">Customer shop <i class="bi bi-arrow-up-right"></i></a></div></div></div></nav>
+  <main class="owner-main d-none" id="ownerPortal"><div class="container">
+    <section class="owner-heading"><div><span class="eyebrow">The people behind the pickup bags</span><h1>Your <em>customers.</em></h1><p>Search customer records or narrow them by shop relationship.</p></div><span class="prototype-label"><i class="bi bi-info-circle"></i> Fictional customer examples · browser-local</span></section>
+    <section class="owner-card"><div class="owner-filterbar"><label class="search-field"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Search customers</span><input class="form-control" id="ownerCustomerSearch" type="search" placeholder="Name, email, or favourite treat..."></label><label><span class="visually-hidden">Filter by customer segment</span><select class="form-select" id="ownerSegmentFilter"><option value="all">All customers</option><option value="new">New</option><option value="regular">Regular</option><option value="vip">VIP</option></select></label><span class="owner-results-count" id="ownerCustomerCountLabel" aria-live="polite">0 customers</span></div>
+      <div class="owner-table-wrap"><table class="table owner-table"><thead><tr><th>Customer</th><th>Email</th><th>Orders</th><th>Lifetime spend</th><th>Favourite bake</th><th>Last order</th><th>Segment</th></tr></thead><tbody id="ownerCustomersTableBody"></tbody></table></div><div class="owner-empty d-none" id="ownerCustomersEmpty">No customers match those filters. Try another search.</div>
+    </section>
+    <p class="auth-footnote text-start mt-3"><i class="bi bi-shield-check"></i> This fictional list is shown after the demo sign-in only; it is not private or secure.</p>
+  </div></main>
+  <footer class="site-footer"><div class="container footer-bottom"><span>Owner workspace · fictional demo records</span><a href="owner-dashboard.html">Back to overview</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/demo-data.js"></script><script src="assets/js/static-mode.js"></script><script src="assets/js/static-demo.js"></script><script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,65 +1,78 @@
 # Petal & Crumb
 
-A responsive Bootstrap dessert-shop website for browsing the menu, creating an account, and ordering ahead for pickup. The owner workspace is served by Laravel and protected by server-side authentication.
+Petal & Crumb is a responsive dessert-shop website for exploring a bakery menu, planning a pickup, and viewing a shop-owner dashboard. The GitHub Pages assessment version is a static HTML, CSS, and JavaScript prototype. It does not need Laravel, PHP, MySQL, or a backend while visitors use it.
 
 ## Features
 
-- Customer storefront with searchable menu, ingredients/allergen details, theme toggle, and local shopping bag.
-- Customer registration and sign-in backed by Laravel sessions and MySQL.
-- Pickup orders, customer records, contact messages, and order items saved in MySQL.
-- Separate owner sign-in, menu management (add, edit, remove, search, and category/status filters), customer data view, dashboard, and sales visualisations.
-- Fictional seed customers and orders for demonstrating the owner workspace.
+- Responsive customer pages with light and dark cream-and-cocoa themes.
+- Searchable, sortable menu with category filters, product descriptions, ingredients, and allergen details.
+- Demo shopping bag and pickup-order flow.
+- Demo customer sign-in and order-history dashboard.
+- Separate demo owner sign-in, customer data view, shop analytics, and charts.
+- Owner menu management with add, edit, remove, search, and category/status filters.
+- Sample products, customers, and orders are defined in the JavaScript source.
 
-The shopping bag and colour-theme preference remain in the browser. Order totals are calculated by the server from the active product prices; no payment is collected online.
+## Demo logins
 
-## Local setup (Laragon)
+Open `login.html` to test the customer account or `owner-login.html` to test the owner workspace.
 
-Requirements: PHP 8.3+, Composer, and MySQL 8.4+.
+| Account | Email | Password |
+| --- | --- | --- |
+| Customer | `hello@petalandcrumb.example` | `sweet123` |
+| Owner | `owner@petalandcrumb.example` | `littlecrumbs26` |
 
-1. Start MySQL in Laragon and create a database named `petal_crumb` using `utf8mb4`.
-2. In `backend`, copy `.env.example` to `.env` if needed. Set `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` for your local MySQL account. Keep `.env` private.
-3. Install and initialize Laravel:
+These are public, client-side demo credentials, not secure accounts. The sign-in screen only simulates access; it does not protect data from someone who can inspect the website source. Use fictional information only.
 
-   ```powershell
-   cd backend
-   composer install
-   php artisan key:generate
-   php artisan migrate --seed
-   php artisan serve
-   ```
+## Data behavior
 
-4. Open `http://127.0.0.1:8000`.
+Starter menu, customer, order, and demo-login data are stored in `backend/public/assets/js/demo-data.js`. Pickup orders, contact messages, and owner menu edits are saved in the current browser's `localStorage` so the prototype can demonstrate interactions. Those changes do not update the source code, sync to other devices, or reach a real shop. Clearing the browser's site data resets the demo to its starter records.
 
-Seeded demo accounts:
+Do not use this static prototype to collect real customer information, passwords, or orders. Real shared accounts and persistent cross-device data require a server and database.
 
-- Customer: `hello@petalandcrumb.example` / `sweet123`
-- Owner: `owner@petalandcrumb.example` / `littlecrumbs26`
+## Code organization
 
-Local seeded owner analytics include fictional sample records. Orders submitted through the storefront are stored in the same database and appear in the owner workspace. In non-local environments, the seeder installs menu products only; create a unique owner account before exposing the site.
+| Location | Purpose |
+| --- | --- |
+| `backend/public/*.html` | Customer-facing page source |
+| `backend/resources/owner-pages/*.html` | Owner workspace page source |
+| `backend/public/assets/css/style.css` | Shared responsive styling and themes |
+| `backend/public/assets/js/app.js` | Page interactions, catalog, forms, and charts |
+| `backend/public/assets/js/demo-data.js` | Hard-coded fictional starter data and test credentials |
+| `backend/public/assets/js/static-demo.js` | Browser-only demo data operations |
+| `backend/scripts/build-github-pages.php` | Copies the static sources into `docs/`; does not access Laravel or MySQL |
+| `docs/` | Complete GitHub Pages site output |
 
-Run focused backend tests with:
+The static website uses semantic HTML page titles, descriptions, headings, navigation, and named content sections. HTML, CSS, and JavaScript are kept in separate files.
+
+## Frameworks and libraries
+
+- HTML5, CSS3, and vanilla JavaScript
+- Bootstrap 5.3.3 and Bootstrap Icons 1.11.3 via CDN
+- Chart.js 4.4.1 via CDN for owner analytics
+- Google Fonts and Unsplash-hosted sample imagery
+
+An internet connection is needed to load the CDN libraries, fonts, and sample images.
+
+## Test locally
+
+From the project root, build the Pages directory and serve it as static files. No database setup is required:
 
 ```powershell
-cd backend
-php artisan test
+php backend\scripts\build-github-pages.php
+php -S 127.0.0.1:8080 -t docs
 ```
 
-## Pages
+Then open `http://127.0.0.1:8080/`. The same demo login credentials above work on the local preview. The PHP command only serves static files; the website itself runs in the browser.
 
-Customer pages are in `backend/public` (`index.html`, `menu.html`, `preorder.html`, `login.html`, `dashboard.html`, and `story.html`). Owner page templates (including `owner-products.html` for menu management) are outside the public directory in `backend/resources/owner-pages` and are returned only through owner-gated Laravel routes. Shared assets are in `backend/public/assets`.
+## GitHub repository and Pages deployment
 
-## Deployment
+- Repository: <https://github.com/dibdibdeeb/individual-adibah>
+- GitHub Pages URL: <https://dibdibdeeb.github.io/individual-adibah/>
 
-This application requires PHP/Laravel and MySQL; GitHub Pages cannot host the database-backed version. Configure the production database and HTTPS session settings, set `APP_DEBUG=false`, and create a unique owner account before deployment. Never use the seeded demo credentials for a live shop.
+To publish or update the site:
 
-### GitHub Pages showcase
+1. Run the build command above and commit/push the source files and generated `docs/` directory to the repository's `main` branch.
+2. In GitHub, open **Settings → Pages** and choose **Deploy from a branch**, branch `main`, folder `/docs`.
+3. Visit the Pages URL above after GitHub finishes deployment.
 
-For a public, view-only showcase, start the local MySQL database and run `php backend/scripts/build-github-pages.php` from the project root. This exports active menu products and builds a static site in `docs` containing the home, menu, and story pages. The exported site does not include Laravel, customer accounts, ordering, message submission, or the owner workspace. Rebuild it after changing menu products, then commit and push the updated `docs` folder to GitHub. In the repository's **Settings → Pages**, choose the publishing source branch and `/docs` folder. GitHub will provide a public `https://<username>.github.io/<repository>/` address.
-
-### Separate shop and owner domains
-
-The customer and owner pages can use different hostnames, such as `petalandcrumb.com` and `owner.petalandcrumb.com`, while still using the same Laravel application and MySQL database. Point both DNS records at the hosting account and configure both hostnames to serve the same Laravel `public` directory. The owner sign-in and its API requests then stay on the owner hostname; the shop uses the shop hostname. Keep the session cookie host-only so the two sites have separate sign-in sessions. If the owner site is hosted separately, route its `/api` requests through a secure reverse proxy to Laravel rather than exposing the database.
-
-### Use from another computer
-
-The current Laragon setup stores data in the MySQL server on this computer, so other computers do not automatically share it. For shared access, deploy Laravel and MySQL to an internet-accessible host (or use a managed MySQL service), then configure the deployed app's `.env` to connect to that remote database. The website and its data will then be available from any computer that can reach the hosted site. Use HTTPS and set up automatic database backups before using real customer data.
+The Laravel/MySQL version remains in `backend/` as a separate server-based prototype; it is not used by GitHub Pages. The public static Pages demo and its test credentials must not be used as a production shop or a real owner-security boundary.

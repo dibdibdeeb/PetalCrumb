@@ -1,41 +1,69 @@
 <?php
 
-use App\Models\Product;
-use Illuminate\Contracts\Console\Kernel;
-
 $backendRoot = dirname(__DIR__);
 $projectRoot = dirname($backendRoot);
 $publicRoot = $backendRoot.DIRECTORY_SEPARATOR.'public';
+$ownerPagesRoot = $backendRoot.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'owner-pages';
 $docsRoot = $projectRoot.DIRECTORY_SEPARATOR.'docs';
-
-require $backendRoot.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
-$app = require $backendRoot.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.'app.php';
-$app->make(Kernel::class)->bootstrap();
 
 if (! is_dir($docsRoot) && ! mkdir($docsRoot, 0777, true) && ! is_dir($docsRoot)) {
     throw new RuntimeException('Could not create the docs output directory.');
 }
 
-$pages = ['index.html', 'menu.html', 'story.html'];
-foreach ($pages as $page) {
-    $source = $publicRoot.DIRECTORY_SEPARATOR.$page;
-    $destination = $docsRoot.DIRECTORY_SEPARATOR.$page;
-    $contents = file_get_contents($source);
-    $appScript = '<script src="assets/js/app.js"></script>';
-    $bootstrapScript = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>';
+$pages = [
+    'index.html' => $publicRoot.DIRECTORY_SEPARATOR.'index.html',
+    'menu.html' => $publicRoot.DIRECTORY_SEPARATOR.'menu.html',
+    'preorder.html' => $publicRoot.DIRECTORY_SEPARATOR.'preorder.html',
+    'login.html' => $publicRoot.DIRECTORY_SEPARATOR.'login.html',
+    'dashboard.html' => $publicRoot.DIRECTORY_SEPARATOR.'dashboard.html',
+    'story.html' => $publicRoot.DIRECTORY_SEPARATOR.'story.html',
+    'owner-login.html' => $ownerPagesRoot.DIRECTORY_SEPARATOR.'owner-login.html',
+    'owner-dashboard.html' => $ownerPagesRoot.DIRECTORY_SEPARATOR.'owner-dashboard.html',
+    'owner-products.html' => $ownerPagesRoot.DIRECTORY_SEPARATOR.'owner-products.html',
+    'owner-customers.html' => $ownerPagesRoot.DIRECTORY_SEPARATOR.'owner-customers.html',
+    'owner-analytics.html' => $ownerPagesRoot.DIRECTORY_SEPARATOR.'owner-analytics.html',
+];
+$scripts = '<script src="assets/js/demo-data.js"></script>'
+    .'<script src="assets/js/static-mode.js"></script>'
+    .'<script src="assets/js/static-demo.js"></script>'
+    .'<script src="assets/js/app.js"></script>';
+$replacements = [
+    'Seeded demo data and live shop activity' => 'Fictional data · updates stay in this browser',
+    'Includes fictional seed data and live orders' => 'Fictional sample records · browser-local',
+    'Fictional seed records and live customers' => 'Fictional customer examples · browser-local',
+    'Pickup activity from the shop database.' => 'Fictional sample and browser-local pickup activity.',
+    'new orders appear here from the database.' => 'new demo orders appear here in this browser.',
+    'The customer list is available only to the signed-in shop owner.' => 'This fictional list is shown after the demo sign-in only; it is not private or secure.',
+    'This customer list is available only to the signed-in shop owner.' => 'This fictional list is shown after the demo sign-in only; it is not private or secure.',
+    'Owner pages and customer data are protected by server-side sign-in.' => 'The client-side demo login is visible in the source and is not secure.',
+    'Owner sign-in required' => 'Demo sign-in required',
+    'Menu management · owner access only' => 'Menu management · static demo',
+    'Customer records · owner access only' => 'Fictional customer records · static demo',
+    'Sales insights · owner access only' => 'Fictional sales insights · static demo',
+    'Here’s how your neighbourhood is showing up for a little something sweet.' => 'Explore the fictional sample activity for this assessment demo.',
+    'A live view of pickup sales, order volume, and what’s coming out of the oven most.' => 'A sample view of pickup sales, order volume, and popular bakes.',
+    'Owner workspace · database-backed shop activity' => 'Owner workspace · static demo data',
+    'Owner workspace · database-backed customer records' => 'Owner workspace · fictional demo records',
+    'Owner workspace · database-backed analytics' => 'Owner workspace · fictional demo analytics',
+    'Owner workspace · database-backed menu products' => 'Owner workspace · browser-local demo menu',
+    'Seeded sample orders are fictional; new orders appear here from the database.' => 'Sample orders are fictional; new demo orders are stored only in this browser.',
+];
 
-    if ($contents === false || substr_count($contents, $appScript) !== 1 || substr_count($contents, $bootstrapScript) !== 1) {
-        throw new RuntimeException("Could not prepare {$page} for static publishing.");
+foreach ($pages as $destinationName => $source) {
+    $contents = file_get_contents($source);
+    if ($contents === false) {
+        throw new RuntimeException("Could not read the page source: {$source}");
     }
 
-    $contents = str_replace(
-        $bootstrapScript,
-        '<script src="assets/js/static-mode.js"></script>'.$bootstrapScript,
-        $contents,
-    );
+    $appScript = '<script src="assets/js/app.js"></script>';
+    if (substr_count($contents, $appScript) !== 1) {
+        throw new RuntimeException("Expected one app script in {$destinationName}.");
+    }
+    $contents = str_replace($appScript, $scripts, $contents);
+    $contents = str_replace(array_keys($replacements), array_values($replacements), $contents);
 
-    if (file_put_contents($destination, $contents) === false) {
-        throw new RuntimeException("Could not write {$page} to the docs directory.");
+    if (file_put_contents($docsRoot.DIRECTORY_SEPARATOR.$destinationName, $contents) === false) {
+        throw new RuntimeException("Could not write {$destinationName}.");
     }
 }
 
@@ -66,38 +94,16 @@ foreach ($iterator as $item) {
     }
 }
 
-$products = Product::query()
-    ->where('active', true)
-    ->orderBy('name')
-    ->get()
-    ->map(fn (Product $product) => [
-        'id' => $product->id,
-        'name' => $product->name,
-        'category' => $product->category,
-        'category_label' => $product->category_label,
-        'description' => $product->description,
-        'price' => (float) $product->price,
-        'tag' => $product->tag,
-        'image' => $product->image,
-        'image_alt' => $product->image_alt,
-        'ingredients' => $product->ingredients,
-        'allergens' => $product->allergens,
-        'active' => true,
-    ])
-    ->values()
-    ->all();
-
-$dataDirectory = $docsRoot.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'data';
-if (! is_dir($dataDirectory) && ! mkdir($dataDirectory, 0777, true) && ! is_dir($dataDirectory)) {
-    throw new RuntimeException('Could not create the static product data directory.');
+$obsoleteProductExport = $docsRoot.DIRECTORY_SEPARATOR.'assets'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'products.json';
+if (is_file($obsoleteProductExport) && ! unlink($obsoleteProductExport)) {
+    throw new RuntimeException('Could not remove the old database-generated product export.');
 }
-
-$productJson = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
-if (file_put_contents($dataDirectory.DIRECTORY_SEPARATOR.'products.json', $productJson.PHP_EOL) === false) {
-    throw new RuntimeException('Could not write the static product data.');
+$obsoleteDataDirectory = dirname($obsoleteProductExport);
+if (is_dir($obsoleteDataDirectory) && count(scandir($obsoleteDataDirectory)) === 2) {
+    rmdir($obsoleteDataDirectory);
 }
 if (file_put_contents($docsRoot.DIRECTORY_SEPARATOR.'.nojekyll', '') === false) {
     throw new RuntimeException('Could not write the GitHub Pages marker file.');
 }
 
-echo 'GitHub Pages site built with '.count($products).' active products in docs.'.PHP_EOL;
+echo 'GitHub Pages demo built with '.count($pages).' static HTML pages; no database required.'.PHP_EOL;

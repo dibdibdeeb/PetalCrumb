@@ -1,9 +1,13 @@
 const STORAGE_KEYS = {
   cart: "pc-cart",
-  theme: "pc-theme"
+  theme: "pc-theme",
+  ownerSession: "pc-demo-owner",
+  userSession: "pc-demo-customer"
 };
 
-let currentUser = null;
+let currentUser = document.documentElement.dataset.staticMode === "true"
+  ? JSON.parse(localStorage.getItem(STORAGE_KEYS.userSession) || "null")
+  : null;
 let csrfToken = null;
 
 let PRODUCTS = [];
@@ -53,6 +57,13 @@ const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, character =>
 }[character]));
 
 async function apiRequest(url, options = {}) {
+  if (document.documentElement.dataset.staticMode === "true") {
+    if (typeof window.staticDemoRequest !== "function") {
+      throw new Error("The assessment demo is not ready. Please reload the page.");
+    }
+    return window.staticDemoRequest(url, options);
+  }
+
   const method = options.method || "GET";
   const headers = { Accept: "application/json", ...(options.headers || {}) };
   if (method !== "GET") {
@@ -109,9 +120,7 @@ function updateCartCount() {
 }
 
 function renderProductCard(product) {
-  const addButton = document.documentElement.dataset.staticMode === "true"
-    ? '<button class="add-to-bag view-only-button" type="button" disabled>View only</button>'
-    : `<button class="add-to-bag" type="button" data-add-to-cart="${escapeHtml(product.id)}" aria-label="Add ${escapeHtml(product.name)} to your bag"><i class="bi bi-plus-lg"></i> Add to bag</button>`;
+  const addButton = `<button class="add-to-bag" type="button" data-add-to-cart="${escapeHtml(product.id)}" aria-label="Add ${escapeHtml(product.name)} to your bag"><i class="bi bi-plus-lg"></i> Add to bag</button>`;
 
   return `<div class="col-6 col-lg-4">
     <article class="product-card">
@@ -1208,17 +1217,12 @@ async function startApp() {
   initTheme();
 
   if (document.documentElement.dataset.staticMode === "true") {
-    try {
-      const response = await fetch("assets/data/products.json");
-      if (!response.ok) throw new Error(`Menu data request failed (${response.status}).`);
-      const products = await response.json();
-      if (!Array.isArray(products)) throw new Error("Menu data has an invalid format.");
-      PRODUCTS = sortCatalogProducts(products.map(normalizeProduct));
-    } catch (error) {
-      showToast(`The public menu could not be loaded: ${error.message}`);
-    }
-
+    PRODUCTS = sortCatalogProducts(window.staticDemoProducts().map(normalizeProduct));
+    updateCartCount();
     initCatalog();
+    initPickup();
+    initContactForm();
+    initSessionApp();
     if (window.initStaticShowcase) window.initStaticShowcase();
     return;
   }

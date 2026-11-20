@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Petal & Crumb owner insights with sample sales, order, and product charts.">
+  <meta name="theme-color" content="#fffaf4">
+  <title>Shop analytics — Petal & Crumb</title>
+  <script>document.documentElement.dataset.bsTheme = localStorage.getItem('pc-theme') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="owner-analytics" data-owner-page="analytics">
+  <div class="owner-topline"><div class="container"><span>Petal & Crumb · Owner workspace</span><span>Fictional sales insights · static demo</span></div></div>
+  <nav class="navbar navbar-expand-lg sweet-navbar owner-navbar sticky-top"><div class="container"><a class="brand-lockup" href="owner-dashboard.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>OWNER WORKSPACE</small></span></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ownerNavigation" aria-controls="ownerNavigation" aria-expanded="false" aria-label="Toggle owner navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="ownerNavigation"><ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3"><li class="nav-item"><a class="nav-link" data-nav="owner-overview" href="owner-dashboard.html">Overview</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-products" href="owner-products.html">Menu</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-customers" href="owner-customers.html">Customers</a></li><li class="nav-item"><a class="nav-link" data-nav="owner-analytics" href="owner-analytics.html">Analytics</a></li></ul><div class="owner-nav-actions"><button type="button" data-theme-toggle aria-label="Switch to dark mode"><i class="bi bi-moon-stars"></i></button><span class="owner-name" data-owner-name>Owner</span><button type="button" data-owner-sign-out>Sign out</button><a class="owner-shop-link" href="index.html">Customer shop <i class="bi bi-arrow-up-right"></i></a></div></div></div></nav>
+  <main class="owner-main d-none" id="ownerPortal"><div class="container">
+    <section class="owner-heading"><div><span class="eyebrow">Little patterns, helpful clues</span><h1>Shop <em>insights.</em></h1><p>A sample view of pickup sales, order volume, and popular bakes.</p></div><span class="prototype-label"><i class="bi bi-info-circle"></i> Includes fictional seed records</span></section>
+    <section class="row g-3 owner-stats">
+      <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon rose"><i class="bi bi-cash-coin"></i></span><div><span class="stat-label">Sales</span><strong class="stat-small" id="analyticsRevenue">RM 0.00</strong><small>From all recorded orders</small></div></article></div>
+      <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon honey"><i class="bi bi-receipt"></i></span><div><span class="stat-label">Average order</span><strong class="stat-small" id="analyticsAverage">RM 0.00</strong><small>Sample sales / order count</small></div></article></div>
+      <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon sage"><i class="bi bi-arrow-repeat"></i></span><div><span class="stat-label">Returning customer rate</span><strong id="analyticsRepeatRate">0%</strong><small>Customers with multiple orders</small></div></article></div>
+    </section>
+    <div class="row g-4 owner-analytics-grid">
+      <div class="col-lg-7"><section class="owner-card h-100"><div class="owner-card-heading"><div><span class="eyebrow">Revenue over time</span><h2>Monthly <em>sales</em></h2></div></div><div class="owner-chart-wrap"><canvas id="salesTrendChart" aria-label="Line chart showing monthly sample sales" role="img"></canvas></div></section></div>
+      <div class="col-lg-5"><section class="owner-card h-100"><div class="owner-card-heading"><div><span class="eyebrow">Where orders go</span><h2>Sales by <em>bake type</em></h2></div></div><div class="owner-chart-wrap"><canvas id="productMixChart" aria-label="Doughnut chart showing sales by dessert category" role="img"></canvas></div></section></div>
+      <div class="col-lg-6"><section class="owner-card h-100"><div class="owner-card-heading"><div><span class="eyebrow">A count of each good day</span><h2>Pickup <em>orders</em></h2></div></div><div class="owner-chart-wrap"><canvas id="orderVolumeChart" aria-label="Bar chart showing order volume by month" role="img"></canvas></div></section></div>
+      <div class="col-lg-6"><section class="owner-card h-100"><div class="owner-card-heading"><div><span class="eyebrow">At a glance</span><h2>Monthly <em>summary</em></h2></div></div><div class="owner-table-wrap"><table class="table owner-table"><thead><tr><th>Month</th><th>Orders</th><th>Sales</th><th>Avg. order</th></tr></thead><tbody id="monthlySummaryBody"></tbody></table></div></section></div>
+    </div>
+    <p class="auth-footnote text-start mt-3"><i class="bi bi-info-circle"></i> Seeded sample orders are fictional; new demo orders appear here in this browser.</p>
+  </div></main>
+  <footer class="site-footer"><div class="container footer-bottom"><span>Owner workspace · fictional demo analytics</span><a href="owner-dashboard.html">Back to overview</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/demo-data.js"></script><script src="assets/js/static-mode.js"></script><script src="assets/js/static-demo.js"></script><script src="assets/js/app.js"></script>
+</body>
+</html>

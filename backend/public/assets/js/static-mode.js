@@ -1,46 +1,35 @@
 document.documentElement.dataset.staticMode = "true";
 
 window.initStaticShowcase = function () {
-  const notice = document.querySelector(".github-pages-note");
-  if (!notice) {
-    const message = document.createElement("div");
-    message.className = "github-pages-note";
-    message.setAttribute("role", "status");
-    message.textContent = "Public view-only showcase. Online ordering, accounts, and owner tools are not enabled here.";
-    const announcement = document.querySelector(".announcement-bar");
+  if (!document.querySelector(".github-pages-note")) {
+    const notice = document.createElement("div");
+    notice.className = "github-pages-note";
+    notice.setAttribute("role", "status");
+    notice.textContent = "Assessment demo · sample data is in the code; orders and edits stay in this browser only.";
+    const announcement = document.querySelector(".announcement-bar, .owner-topline");
     const main = document.querySelector("main");
-    if (announcement) announcement.insertAdjacentElement("afterend", message);
-    else if (main) main.prepend(message);
+    if (announcement) announcement.insertAdjacentElement("afterend", notice);
+    else if (main) main.before(notice);
   }
 
-  document.querySelectorAll('a[data-nav="pickup"]').forEach(link => link.closest(".nav-item")?.remove());
-  document.querySelectorAll('a[href="preorder.html"]').forEach(link => {
-    link.href = "menu.html";
-    link.innerHTML = 'Browse the menu <i class="bi bi-arrow-up-right" aria-hidden="true"></i>';
-  });
-  document.querySelectorAll('a[href="login.html"], a[href="dashboard.html"], a[href="owner-login.html"], .bag-button').forEach(link => link.remove());
-  document.querySelectorAll("[data-add-to-cart]").forEach(button => {
-    button.disabled = true;
-    button.classList.add("view-only-button");
-    button.textContent = "View only";
-    button.removeAttribute("aria-label");
+  document.querySelectorAll(".owner-topline .container span:last-child").forEach(label => {
+    label.textContent = "Static demo · fictional data · browser-local changes";
   });
 
-  const modalAddButton = document.getElementById("productDetailsAdd");
-  if (modalAddButton) {
-    modalAddButton.disabled = true;
-    modalAddButton.textContent = "View only";
+  const accountNote = document.querySelector("#authForm")?.parentElement?.querySelector(".auth-footnote");
+  if (accountNote) {
+    accountNote.innerHTML = '<i class="bi bi-info-circle"></i> This public demo has no secure accounts. Use only the sample login shown here.';
   }
 
-  const contactForm = document.getElementById("contactUsForm");
-  if (contactForm) {
-    contactForm.addEventListener("submit", event => event.preventDefault());
-    contactForm.querySelectorAll("input, textarea, button").forEach(control => {
-      control.disabled = true;
-    });
-    const note = contactForm.querySelector(".auth-footnote");
-    if (note) note.textContent = "This public showcase does not send messages. Please use the bakery's contact details instead.";
+  const ownerNote = document.querySelector("#ownerLoginForm")?.parentElement?.querySelector(".auth-footnote");
+  if (ownerNote) {
+    ownerNote.innerHTML = '<i class="bi bi-info-circle"></i> This client-side demo login is not secure and must not protect real customer data.';
   }
+
+  const contactNote = document.querySelector("#contactUsForm .auth-footnote");
+  if (contactNote) contactNote.textContent = "This demo saves your note in this browser only; the shop will not receive it.";
+  const contactSuccess = document.getElementById("contactSuccess");
+  if (contactSuccess) contactSuccess.textContent = "Your demo note is saved in this browser only.";
 };
 
 window.initStaticShowcase();

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Your Petal & Crumb dashboard with pickup orders, rewards, and monthly order activity.">
+  <meta name="theme-color" content="#fffaf4">
+  <title>Your little dashboard — Petal & Crumb</title>
+  <script>document.documentElement.dataset.bsTheme = localStorage.getItem('pc-theme') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dashboard">
+  <div class="announcement-bar text-center"><span>Small-batch bakes, made fresh every morning</span><span class="announcement-divider">·</span><a href="preorder.html">Order now, pick up when it suits you <i class="bi bi-arrow-up-right"></i></a></div>
+  <nav class="navbar navbar-expand-lg sweet-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand brand-lockup" href="index.html" aria-label="Petal and Crumb home"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>NEIGHBOURHOOD PATISSERIE</small></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNavigation">
+        <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3"><li class="nav-item"><a class="nav-link" data-nav="home" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav="menu" href="menu.html">Our menu</a></li><li class="nav-item"><a class="nav-link" data-nav="pickup" href="preorder.html">Pickup</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-nav="story" href="#" id="storyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Our story</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="story.html#our-story">Our story</a></li><li><a class="dropdown-item" href="story.html#contact">Contact us</a></li></ul></li></ul>
+        <div class="nav-actions d-flex align-items-center gap-2"><button class="icon-button" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch colour theme"><i class="bi bi-moon-stars"></i></button><a class="icon-button account-link" href="dashboard.html" aria-label="My account" title="My account"><i class="bi bi-person"></i></a><a class="bag-button" href="preorder.html"><i class="bi bi-bag"></i><span>Bag</span><span class="bag-count" data-cart-count>0</span></a></div>
+      </div>
+    </div>
+  </nav>
+  <main class="section-space dashboard-page">
+    <div class="container">
+      <section class="dashboard-welcome"><div><span class="eyebrow">Your own little corner</span><h1 id="dashboardGreeting">A sweeter day, <em>starts here.</em></h1><p id="dashboardIntro">Your pickup plans and favourite bakes, all in one place.</p></div><a class="btn btn-cocoa" href="menu.html">Find a little treat <i class="bi bi-arrow-right"></i></a></section>
+      <div class="sign-in-required d-none" id="dashboardGate"><span class="gate-icon"><i class="bi bi-person-heart"></i></span><div><h2>A little closer, please.</h2><p>Sign in to see your pickup orders and rewards.</p><a class="btn btn-cocoa" href="login.html">Sign in to your account <i class="bi bi-arrow-right"></i></a></div></div>
+      <div id="dashboardContent">
+        <section class="row g-3 dashboard-stats" aria-label="Account summary">
+          <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon rose"><i class="bi bi-bag-heart"></i></span><div><span class="stat-label">Orders placed</span><strong id="statOrders">0</strong><small>Every treat counts</small></div></article></div>
+          <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon honey"><i class="bi bi-stars"></i></span><div><span class="stat-label">Sweet points</span><strong id="statPoints">0</strong><small>One point for every RM spent</small></div></article></div>
+          <div class="col-12 col-md-4"><article class="stat-card"><span class="stat-icon sage"><i class="bi bi-calendar-heart"></i></span><div><span class="stat-label">Next pickup</span><strong class="stat-small" id="statPickup">Nothing planned</strong><small id="statPickupNote">A little something to look forward to</small></div></article></div>
+        </section>
+        <div class="row g-4 dashboard-lower">
+          <div class="col-lg-7"><section class="dashboard-card chart-card"><div class="dashboard-card-heading"><div><span class="eyebrow">A little look back</span><h2>Your monthly <em>treats</em></h2></div><span class="activity-badge" id="chartBadge">Sample activity</span></div><p class="chart-description" id="chartDescription">A little sample of how your order activity might look over time.</p><div class="chart-wrap"><canvas id="ordersChart" aria-label="Bar chart showing orders by month" role="img"></canvas></div></section></div>
+          <div class="col-lg-5"><section class="dashboard-card rewards-card"><span class="rewards-flower" aria-hidden="true">✿</span><span class="eyebrow">A thank-you, from us</span><h2>Good things<br>come <em>around.</em></h2><p>Collect a sweet point for every ringgit you spend. A little something from us is waiting at 100.</p><div class="reward-progress"><div class="reward-progress-head"><span>Your next little treat</span><strong><span id="rewardPoints">0</span> / 100 points</strong></div><div class="progress" role="progressbar" aria-label="Progress towards your reward" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar" id="rewardProgress"></div></div></div><a href="menu.html" class="text-link">Earn your next point <i class="bi bi-arrow-right"></i></a></section></div>
+        </div>
+        <section class="dashboard-card order-history-card">
+          <div class="dashboard-card-heading"><div><span class="eyebrow">The sweet little details</span><h2>Your <em>orders</em></h2></div><a href="preorder.html" class="text-link">Plan another pickup <i class="bi bi-arrow-right"></i></a></div>
+          <div class="order-history-list" id="orderHistoryList"></div>
+          <div class="order-history-empty" id="orderHistoryEmpty"><span class="empty-menu-icon"><i class="bi bi-basket2-heart"></i></span><h3>Nothing in the oven just yet.</h3><p>Your pickup orders will be tucked in here.</p><a href="menu.html" class="btn btn-outline-cocoa">Find something lovely</a></div>
+        </section>
+        <div class="dashboard-account-actions"><span>It’s nice to have you here, <strong id="accountDisplayName">sweet friend</strong>.</span><button type="button" class="text-button" id="signOutButton">Sign out <i class="bi bi-box-arrow-right"></i></button></div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-main row gy-4 align-items-start"><div class="col-lg-5"><a class="brand-lockup footer-brand" href="index.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>NEIGHBOURHOOD PATISSERIE</small></span></a><p class="footer-note">Made with a little patience, a lot of butter, and all our heart.</p></div><div class="col-6 col-lg-3"><h2 class="footer-title">Come on in</h2><p>18 Garden Lane, Kuala Lumpur<br>Mon–Sat · 9am–6pm</p><a href="preorder.html">Plan a pickup</a></div><div class="col-6 col-lg-2"><h2 class="footer-title">The good stuff</h2><a href="menu.html">Our menu</a><a href="dashboard.html">Order history</a><a href="login.html">My account</a><a href="owner-login.html">For the owner</a></div><div class="col-12 col-lg-2"><h2 class="footer-title">A little hello</h2><a href="mailto:hello@petalandcrumb.example">hello@petalandcrumb.example</a><span class="social-note"><i class="bi bi-instagram"></i> @petalandcrumb</span></div></div><div class="container footer-bottom"><span>© <span data-year></span> Petal & Crumb. Baked with love.</span><span>Take the scenic route. Bring a pastry.</span></div></footer>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div class="toast sweet-toast" id="appToast" role="status" aria-live="polite" aria-atomic="true"><div class="d-flex"><div class="toast-body"><i class="bi bi-heart-fill me-2"></i><span data-toast-message>Welcome to Petal & Crumb.</span></div><button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/demo-data.js"></script><script src="assets/js/static-mode.js"></script><script src="assets/js/static-demo.js"></script><script src="assets/js/app.js"></script>
+</body>
+</html>
