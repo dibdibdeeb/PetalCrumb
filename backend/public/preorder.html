@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Choose a pickup time and have your Petal & Crumb favourites waiting for you.">
+  <meta name="theme-color" content="#fffaf4">
+  <title>Plan a pickup — Petal & Crumb</title>
+  <script>document.documentElement.dataset.bsTheme = localStorage.getItem('pc-theme') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="pickup">
+  <div class="announcement-bar text-center"><span>Small-batch bakes, made fresh every morning</span><span class="announcement-divider">·</span><a href="menu.html">A little treat is never far away <i class="bi bi-arrow-up-right"></i></a></div>
+  <nav class="navbar navbar-expand-lg sweet-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand brand-lockup" href="index.html" aria-label="Petal and Crumb home"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>NEIGHBOURHOOD PATISSERIE</small></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNavigation">
+        <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3"><li class="nav-item"><a class="nav-link" data-nav="home" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav="menu" href="menu.html">Our menu</a></li><li class="nav-item"><a class="nav-link" data-nav="pickup" href="preorder.html">Pickup</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-nav="story" href="#" id="storyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Our story</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="story.html#our-story">Our story</a></li><li><a class="dropdown-item" href="story.html#contact">Contact us</a></li></ul></li></ul>
+        <div class="nav-actions d-flex align-items-center gap-2"><button class="icon-button" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch colour theme"><i class="bi bi-moon-stars"></i></button><a class="icon-button account-link" href="login.html" aria-label="Sign in to your account" title="My account"><i class="bi bi-person"></i></a><a class="bag-button" href="preorder.html" aria-current="page"><i class="bi bi-bag"></i><span>Bag</span><span class="bag-count" data-cart-count>0</span></a></div>
+      </div>
+    </div>
+  </nav>
+  <main class="section-space preorder-page">
+    <div class="container">
+      <div class="page-title-block"><span class="eyebrow">Made fresh, ready when you are</span><h1>Your little <em>pickup plan.</em></h1><p>Tell us what you fancy and when you’ll swing by. We’ll take it from here.</p></div>
+      <div class="row g-4 g-xl-5 align-items-start">
+        <div class="col-lg-7">
+          <div class="checkout-card">
+            <div class="checkout-card-heading"><span class="step-number">01</span><div><h2>Let’s get the details</h2><p>We’ll have your order packed and ready at the counter.</p></div></div>
+            <form id="pickupForm" class="needs-validation" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label" for="customerName">Your name</label><input class="form-control" id="customerName" name="name" type="text" placeholder="A name for the bag" autocomplete="name" required minlength="2"><div class="invalid-feedback">Please add the name for your order.</div></div>
+                <div class="col-md-6"><label class="form-label" for="customerEmail">Email address</label><input class="form-control" id="customerEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required><div class="invalid-feedback">Please enter a valid email address.</div></div>
+                <div class="col-md-6"><label class="form-label" for="pickupDate">Pickup date</label><input class="form-control" id="pickupDate" name="date" type="date" required><div class="invalid-feedback">Choose a pickup date.</div></div>
+                <div class="col-md-6"><label class="form-label" for="pickupTime">Pickup time</label><select class="form-select" id="pickupTime" name="time" required><option value="" selected disabled>Choose a time</option><option>9:00–10:00 am</option><option>10:00–11:00 am</option><option>11:00 am–12:00 pm</option><option>12:00–1:00 pm</option><option>1:00–2:00 pm</option><option>2:00–3:00 pm</option><option>3:00–4:00 pm</option><option>4:00–5:00 pm</option><option>5:00–6:00 pm</option></select><div class="invalid-feedback">Choose a pickup time.</div></div>
+                <div class="col-12"><label class="form-label" for="orderNote">A little note <span class="optional-label">Optional</span></label><textarea class="form-control" id="orderNote" name="note" rows="3" placeholder="Allergies, a birthday surprise, anything we should know..."></textarea></div>
+              </div>
+              <div class="checkout-reassurance"><i class="bi bi-shield-check"></i><span>No payment needed online. Pay at the shop when you pick up your order.</span></div>
+              <button class="btn btn-cocoa w-100 checkout-submit" id="placeOrder" type="submit">Place my pickup order <i class="bi bi-arrow-right"></i></button>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <aside class="order-summary-card">
+            <div class="summary-heading"><div><span class="eyebrow">The good stuff</span><h2>Your bag <span data-summary-count>(0)</span></h2></div><a href="menu.html" class="summary-edit">Add treats <i class="bi bi-plus"></i></a></div>
+            <div id="orderSummaryItems" class="summary-items"></div>
+            <div id="emptyBagMessage" class="empty-bag-message"><span class="empty-bag-illustration"><i class="bi bi-bag-heart"></i></span><h3>A little room for something lovely.</h3><p>Your bag is waiting for a favourite.</p><a class="btn btn-outline-cocoa" href="menu.html">Browse the menu</a></div>
+            <div class="summary-total"><span>Subtotal</span><strong id="orderSubtotal">RM 0.00</strong></div>
+            <p class="summary-footnote"><i class="bi bi-flower1"></i> Baked fresh for your chosen pickup time.</p>
+          </aside>
+          <div class="pickup-location"><span class="location-icon"><i class="bi bi-geo-alt"></i></span><div><strong>Pick up at the shop</strong><span>18 Garden Lane, Kuala Lumpur<br>Open Monday to Saturday, 9am–6pm</span></div></div>
+        </div>
+      </div>
+      <section class="order-confirmation d-none" id="orderConfirmation" role="status" aria-live="polite">
+        <span class="confirmation-icon"><i class="bi bi-check2"></i></span><div><span class="eyebrow">A sweet little success</span><h2>Your order is <em>on its way.</em></h2><p id="confirmationDetails"></p><a class="btn btn-cocoa" href="dashboard.html">See my orders <i class="bi bi-arrow-right"></i></a></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-main row gy-4 align-items-start"><div class="col-lg-5"><a class="brand-lockup footer-brand" href="index.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>NEIGHBOURHOOD PATISSERIE</small></span></a><p class="footer-note">Made with a little patience, a lot of butter, and all our heart.</p></div><div class="col-6 col-lg-3"><h2 class="footer-title">Come on in</h2><p>18 Garden Lane, Kuala Lumpur<br>Mon–Sat · 9am–6pm</p><a href="preorder.html">Plan a pickup</a></div><div class="col-6 col-lg-2"><h2 class="footer-title">The good stuff</h2><a href="menu.html">Our menu</a><a href="dashboard.html">Order history</a><a href="login.html">My account</a><a href="owner-login.html">For the owner</a></div><div class="col-12 col-lg-2"><h2 class="footer-title">A little hello</h2><a href="mailto:hello@petalandcrumb.example">hello@petalandcrumb.example</a><span class="social-note"><i class="bi bi-instagram"></i> @petalandcrumb</span></div></div><div class="container footer-bottom"><span>© <span data-year></span> Petal & Crumb. Baked with love.</span><span>Take the scenic route. Bring a pastry.</span></div></footer>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div class="toast sweet-toast" id="appToast" role="status" aria-live="polite" aria-atomic="true"><div class="d-flex"><div class="toast-body"><i class="bi bi-heart-fill me-2"></i><span data-toast-message>Added to your bag.</span></div><button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

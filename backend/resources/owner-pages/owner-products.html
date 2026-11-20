@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Manage Petal & Crumb's customer-facing menu.">
+  <meta name="theme-color" content="#fffaf4">
+  <title>Menu management — Petal & Crumb</title>
+  <script>document.documentElement.dataset.bsTheme = localStorage.getItem('pc-theme') || 'light';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="owner-products" data-owner-page="products">
+  <div class="owner-topline"><div class="container"><span>Petal & Crumb · Owner workspace</span><span>Menu management · owner access only</span></div></div>
+  <nav class="navbar navbar-expand-lg sweet-navbar owner-navbar sticky-top">
+    <div class="container">
+      <a class="brand-lockup" href="owner-dashboard.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span class="brand-name">petal <span>&</span> crumb<small>OWNER WORKSPACE</small></span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ownerNavigation" aria-controls="ownerNavigation" aria-expanded="false" aria-label="Toggle owner navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="ownerNavigation">
+        <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3">
+          <li class="nav-item"><a class="nav-link" data-nav="owner-overview" href="owner-dashboard.html">Overview</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="owner-products" href="owner-products.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="owner-customers" href="owner-customers.html">Customers</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="owner-analytics" href="owner-analytics.html">Analytics</a></li>
+        </ul>
+        <div class="owner-nav-actions"><button type="button" data-theme-toggle aria-label="Switch to dark mode"><i class="bi bi-moon-stars"></i></button><span class="owner-name" data-owner-name>Owner</span><button type="button" data-owner-sign-out>Sign out</button><a class="owner-shop-link" href="index.html">Customer shop <i class="bi bi-arrow-up-right"></i></a></div>
+      </div>
+    </div>
+  </nav>
+  <main class="owner-main d-none" id="ownerPortal">
+    <div class="container">
+      <section class="owner-heading owner-products-heading">
+        <div><span class="eyebrow">A little something for everyone</span><h1>Your <em>menu.</em></h1><p>Add and update bakes, or remove an item from the customer shop.</p></div>
+        <button class="btn btn-cocoa" type="button" id="addOwnerProduct"><i class="bi bi-plus-lg"></i> Add product</button>
+      </section>
+      <section class="owner-card">
+        <div class="owner-filterbar owner-product-filterbar">
+          <label class="search-field"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Search menu products</span><input class="form-control" id="ownerProductSearch" type="search" placeholder="Search name, ingredients, or tag..."></label>
+          <label><span class="visually-hidden">Filter by category</span><select class="form-select" id="ownerProductCategory"><option value="all">All categories</option><option value="cakes">Celebration cakes</option><option value="tarts">Tarts & slices</option><option value="little-bakes">Little bakes</option><option value="seasonal">Seasonal</option></select></label>
+          <label><span class="visually-hidden">Filter by menu status</span><select class="form-select" id="ownerProductStatus"><option value="all">All products</option><option value="active" selected>On menu</option><option value="removed">Removed</option></select></label>
+          <span class="owner-results-count" id="ownerProductCountLabel" aria-live="polite">0 products</span>
+        </div>
+        <div class="alert alert-danger d-none" id="ownerProductsError" role="alert"></div>
+        <div class="owner-table-wrap">
+          <table class="table owner-table owner-product-table">
+            <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Ingredients</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="ownerProductsTableBody"></tbody>
+          </table>
+        </div>
+        <div class="owner-empty d-none" id="ownerProductsEmpty">No menu products yet. Add one to get started.</div>
+      </section>
+      <p class="auth-footnote text-start mt-3"><i class="bi bi-shield-check"></i> Deleting removes a product from the customer menu and preserves existing order records. Removed products can be restored by editing them.</p>
+    </div>
+  </main>
+  <div class="modal fade" id="ownerProductModal" tabindex="-1" aria-labelledby="ownerProductModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content product-modal-content">
+      <form id="ownerProductForm" class="needs-validation owner-product-form" novalidate>
+        <div class="modal-header border-0 pb-0"><div><span class="eyebrow">Behind the counter</span><h2 class="modal-title" id="ownerProductModalTitle">Add a menu product</h2></div><button type="button" class="btn-close me-0" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body pt-3">
+          <div class="alert alert-danger d-none" id="ownerProductFormError" role="alert"></div>
+          <div class="row g-3">
+            <div class="col-md-8"><label class="form-label" for="ownerProductName">Product name</label><input class="form-control" id="ownerProductName" name="name" required minlength="2" maxlength="120"><div class="invalid-feedback">Enter a name of at least two characters.</div></div>
+            <div class="col-md-4"><label class="form-label" for="ownerProductCategoryInput">Category</label><select class="form-select" id="ownerProductCategoryInput" name="category" required><option value="cakes">Celebration cakes</option><option value="tarts">Tarts & slices</option><option value="little-bakes">Little bakes</option><option value="seasonal">Seasonal</option></select></div>
+            <div class="col-md-4"><label class="form-label" for="ownerProductPrice">Price (RM)</label><input class="form-control" id="ownerProductPrice" name="price" type="number" min="0.01" max="999999.99" step="0.01" required><div class="invalid-feedback">Enter a valid price.</div></div>
+            <div class="col-md-8"><label class="form-label" for="ownerProductTag">Short tag</label><input class="form-control" id="ownerProductTag" name="tag" maxlength="60" required placeholder="Seasonal sunshine"><div class="invalid-feedback">Enter a short menu tag.</div></div>
+            <div class="col-12"><label class="form-label" for="ownerProductDescription">Description</label><textarea class="form-control" id="ownerProductDescription" name="description" rows="2" maxlength="500" required></textarea><div class="invalid-feedback">Enter a product description.</div></div>
+            <div class="col-md-8"><label class="form-label" for="ownerProductImage">Product image URL (HTTPS)</label><input class="form-control" id="ownerProductImage" name="image" type="url" required placeholder="https://example.com/pastry.jpg"><div class="invalid-feedback">Enter an HTTPS image URL.</div></div>
+            <div class="col-md-4"><label class="form-label" for="ownerProductImageAlt">Image description</label><input class="form-control" id="ownerProductImageAlt" name="image_alt" maxlength="255" required><div class="invalid-feedback">Describe the product image.</div></div>
+            <div class="col-md-7"><label class="form-label" for="ownerProductIngredients">Ingredients</label><textarea class="form-control" id="ownerProductIngredients" name="ingredients" rows="3" required placeholder="One ingredient per line"></textarea><div class="form-text">Enter one ingredient per line.</div></div>
+            <div class="col-md-5"><label class="form-label" for="ownerProductAllergens">Allergen information</label><textarea class="form-control" id="ownerProductAllergens" name="allergens" rows="3" maxlength="255" required placeholder="Wheat, eggs, and dairy"></textarea></div>
+            <div class="col-12"><div class="form-check"><input class="form-check-input" id="ownerProductActive" name="active" type="checkbox" checked><label class="form-check-label" for="ownerProductActive">Show this product on the customer menu</label></div></div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn btn-cocoa">Save product</button></div>
+      </form>
+    </div></div>
+  </div>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div class="toast" id="appToast" role="status" aria-live="polite" aria-atomic="true"><div class="toast-body d-flex align-items-center gap-2"><i class="bi bi-flower1 text-cocoa"></i><span data-toast-message></span></div></div></div>
+  <footer class="site-footer"><div class="container footer-bottom"><span>Owner workspace · database-backed menu products</span><a href="owner-dashboard.html">Back to overview</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
